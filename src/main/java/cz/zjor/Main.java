@@ -1,6 +1,6 @@
 package cz.zjor;
 
-import cz.zjor.service.GreetService;
+import cz.zjor.service.ModelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -10,9 +10,10 @@ public class Main {
 
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-context-*.xml");
-        GreetService service = context.getBean(GreetService.class);
+        ModelService service = context.getBean(ModelService.class);
 
-        log.info(service.greet("world"));
+        service.create("Model#001");
+        log.info("{}", service.fetch());
     }
 
 }
