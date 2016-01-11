@@ -1,6 +1,8 @@
 package cz.zjor;
 
-import cz.zjor.service.ModelService;
+import cz.zjor.model.BasePart;
+import cz.zjor.model.Product;
+import cz.zjor.service.PartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -9,11 +11,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Main {
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-context-*.xml");
-        ModelService service = context.getBean(ModelService.class);
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-context-app.xml", "classpath:spring-context-persistence.xml", "classpath:spring-context-ds-postgres.xml");
+        PartService service = context.getBean(PartService.class);
 
-        service.create("Model#001");
-        log.info("{}", service.fetch());
+        BasePart p1 = service.createBolt("bolt#1", "24.5");
+        BasePart p2 = service.createGear("gear#1", "24.5");
+        Product p = service.createProduct(p1);
+
+        log.info("{}", service.find(Product.class, p.getId()).getPart());
+
     }
 
 }
